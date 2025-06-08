@@ -4,7 +4,13 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'chave_super_secreta_qualquer'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///opinions.db'
+
+# Usa a variável DATABASE_URL do Render (corrige o prefixo se necessário)
+DATABASE_URL = os.environ.get("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -17,7 +23,7 @@ class Opinion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
 
-# Cria o banco de dados
+# Cria as tabelas no banco de dados
 with app.app_context():
     db.create_all()
 
