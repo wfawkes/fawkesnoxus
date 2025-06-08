@@ -1,50 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <title>Painel Admin - Opiniões</title>
   <style>
-    body { 
-      background-color: #121212; 
-      color: #eee; 
-      font-family: Arial, sans-serif; 
-      padding: 30px;
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
     h1 {
-      margin-bottom: 20px;
+      color: #bb86fc;
     }
-    ul { 
-      list-style: none; 
-      padding: 0; 
-      max-width: 600px;
+    ul {
+      list-style-type: none;
+      padding: 0;
     }
-    li { 
-      background: #222; 
-      margin-bottom: 10px; 
-      padding: 15px; 
+    li {
+      background-color: #1e1e1e;
+      margin: 8px 0;
+      padding: 12px;
       border-radius: 6px;
+      box-shadow: 0 0 5px #333;
       word-wrap: break-word;
     }
     a.logout {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #f44336;
+      color: #cf6679;
       text-decoration: none;
       font-weight: bold;
-    }
-    a.logout:hover {
-      text-decoration: underline;
+      float: right;
     }
   </style>
 </head>
 <body>
-  <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+  <a href="{{ url_for('logout') }}" class="logout">Sair</a>
   <h1>Opiniões Recebidas</h1>
   <ul>
     {% for opinion in opinions %}
-      <li>{{ opinion }}</li>
+      <li>{{ opinion.text }}</li>
     {% else %}
-      <li>Nenhuma opinião recebida ainda.</li>
+      <li>Nenhuma opinião enviada ainda.</li>
     {% endfor %}
   </ul>
 </body>
