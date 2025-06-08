@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
@@ -18,14 +19,15 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         password = request.form.get('password')
         if password == ADMIN_PASSWORD:
             session['authenticated'] = True
             return redirect(url_for('admin'))
         else:
-            return "Senha incorreta.", 401
-    return render_template('login.html')
+            error = "Senha incorreta."
+    return render_template('login.html', error=error)
 
 @app.route('/admin')
 def admin():
