@@ -1,22 +1,48 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = 'chave_super_secreta_aqui'  # Use algo mais seguro no futuro
+
+# Substitua pela sua senha desejada
+ADMIN_PASSWORD = "*j21072022w"
 
 opinions = []
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == 'POST':
-        opinion = request.form.get('opinion')
+    if request.method == "POST":
+        opinion = request.form.get("opinion")
         if opinion:
             opinions.append(opinion)
-    return render_template('index.html')
+            return redirect(url_for("index"))
+    return render_template("index.html")
 
-@app.route('/admin')
+@app.route("/admin", methods=["GET", "POST"])
 def admin():
-    return render_template('admin.html', opinions=opinions)
+    if not session.get("authenticated"):
+        return redirect(url_for("login"))
+    return render_template("admin.html", opinions=opinions)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        password = request.form.get("password")
+        if password == ADMIN_PASSWORD:
+            session["authenticated"] = True
+            return redirect(url_for("admin"))
+        else:
+            return "Senha incorreta.", 401
+    return '''
+        <form method="POST">
+            <input type="password" name="password" placeholder="Senha do Admin" required>
+            <button type="submit">Entrar</button>
+        </form>
+    '''
+
+@app.route("/logout")
+def logout():
+    session.pop("authenticated", None)
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
