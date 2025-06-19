@@ -2,57 +2,54 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Envie sua Opinião</title>
+    <title>Deixe sua Opinião</title>
     <style>
         body {
             background-color: #121212;
             color: #ffffff;
             font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            color: #bb86fc;
-        }
-        form {
-            margin-top: 20px;
+            text-align: center;
+            padding: 40px;
         }
         textarea {
             width: 100%;
+            max-width: 500px;
             height: 100px;
+            margin-top: 20px;
             padding: 10px;
+            border-radius: 8px;
+            border: none;
             background-color: #1e1e1e;
-            color: #ffffff;
-            border: 1px solid #333;
-            border-radius: 5px;
-            resize: none;
+            color: #fff;
         }
-        button {
+        input[type="submit"] {
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #03dac6;
-            color: #000;
+            background-color: #d63031;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            color: #fff;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #02c2b3;
-        }
-        .link-admin {
-            margin-top: 20px;
-            display: block;
-            color: #03dac6;
+        img.logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #d63031;
         }
     </style>
 </head>
 <body>
+
+    <!-- NOVA LOGO -->
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Fawkes" class="logo">
+
     <h1>Deixe sua opinião</h1>
-    <form method="POST" action="/">
-        <textarea name="opinion" placeholder="Escreva aqui sua opinião..." required></textarea>
-        <br>
-        <button type="submit">Enviar</button>
+    
+    <form method="POST">
+        <textarea name="opinion" placeholder="Escreva sua opinião aqui..." required></textarea><br>
+        <input type="submit" value="Enviar">
     </form>
 
-    <a class="link-admin" href="{{ url_for('login') }}">Área do administrador</a>
 </body>
 </html>
